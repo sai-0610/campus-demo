@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
-import products from "../products";
+// import products from "../products";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import {
   Row,
   Col,
@@ -8,22 +10,88 @@ import {
   Card,
   Button,
   Form,
+  Spinner,
 } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { Link } from "react-router-dom";
 
 const ProductScreen = () => {
-  let { id } = useParams();
-  id = Number(id);
-  const product = products.find((p, index) => {
-    console.log("index: ", index);
-    console.log(index === id);
-    if (index === id) {
-      return true;
-    }
-    return false;
-  });
-  console.log("product: ", product);
+  const [product, setProduct] = useState({});
+  const { id: productId } = useParams();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`/api/products/${productId}`);
+        console.log("Response:", response);
+        setProduct(response.data); // Corrected: Extract 'data' from response
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        setLoading(false); // Added setLoading(false) for error case as well
+      }
+    };
+
+    fetchProduct();
+  }, [productId]);
+  //   const fetchProduct = async () => {
+  //     try {
+  //       const { data } = await axios.get(`/api/products/${productId}`);
+  //       setProduct(data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error("Error fetching product:", error);
+  //     }
+  //   };
+
+  //   fetchProduct();
+  // }, [productId]);
+
+  if (loading) {
+    console.log("Loading product...");
+    return <Spinner animation="border" />;
+  }
+
+  // const [product, setProduct] = useState({});
+  // const { id: productId } = useParams();
+  // useEffect(() => {
+  //   const fetchProduct = async () => {
+  //     const { data } = await axios.get(`/api/products/${productId}`);
+  //     setProduct(data);
+  //   };
+  //   fetchProduct();
+  // }, [productId]);
+
+  // const [product, setProduct] = useState({});
+  // const { id: productId } = useParams();
+
+  // useEffect(() => {
+  //   const fetchProduct = async () => {
+  //     try {
+  //       const { data } = await axios.get(`/api/products/${productId}`);
+  //       setProduct(data);
+  //     } catch (error) {
+  //       console.error("Error fetching product:", error);
+  //     }
+  //   };
+
+  //   fetchProduct();
+  // }, [productId]);
+
+  // let { id } = useParams();
+  // id = Number(id);
+  // const product = products.find((p, index) => {
+  //   console.log("index: ", index);
+  //   console.log(index === id);
+  //   if (index === id) {
+  //     return true;
+  //   }
+  //   return false;
+  // });
+  // console.log("product: ", product);
+  console.log("Rendering product details:", product);
+
   return (
     <>
       <Link className="btn btn-light my-3" to="/">

@@ -1,9 +1,27 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import products from "../products";
+import { useEffect, useState } from "react";
 import Product from "../components/Product";
+import axios from "axios";
 
-const Homescreen = () => {
+const HomeScreen = () => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    // const fetchProducts = async () => {
+    //   const { data } = await axios.get("/api/products");
+    //   setProducts(data);
+    // };
+    // fetchProducts();
+    const fetchProducts = async () => {
+      try {
+        const { data } = await axios.get("/api/products");
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
   return (
     <>
       <h1>Latest Products</h1>
@@ -18,4 +36,4 @@ const Homescreen = () => {
   );
 };
 
-export default Homescreen;
+export default HomeScreen;
