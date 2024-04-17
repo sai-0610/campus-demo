@@ -39,7 +39,7 @@ router.get(
     }
 
     // If the ID is valid, attempt to find the product
-    const product = await Product.findById(mongoose.Types.ObjectId(productId));
+    const product = await Product.findById(productId);
 
     if (product) {
       return res.json(product);
