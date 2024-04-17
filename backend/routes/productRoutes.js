@@ -9,9 +9,9 @@ const router = express.Router();
 
 // Route to get all products
 router.get("/", async (req, res) => {
-    const products = await Product.find({});
-    console.log(products);
-    res.json(products);
+  const products = await Product.find({});
+  console.log(products);
+  res.json(products);
 });
 
 // Route to get a single product by ID
@@ -27,20 +27,14 @@ router.get("/", async (req, res) => {
 // );
 
 router.get(
-    "/:id",
-    asyncHandler(async (req, res) => {
-        const productId = req.params.id;
-        console.log("productId: ", productId);
-
-<<<<<<< HEAD
-    // Validate if the ID is a valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
-      return res.status(400).json({ message: "Invalid product ID" });
-    }
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const productId = req.params.id;
+    console.log("productId: ", productId);
 
     // If the ID is valid, attempt to find the product
     const product = await Product.findById(productId);
-
+    console.log("Product: ", product);
     if (product) {
       return res.json(product);
     } else {
@@ -48,18 +42,6 @@ router.get(
       throw new Error("Resource not found");
     }
   })
-=======
-        // If the ID is valid, attempt to find the product
-        const product = await Product.findById(productId);
-        console.log("Product: ", product);
-        if (product) {
-            return res.json(product);
-        } else {
-            res.status(404);
-            throw new Error("Resource not found");
-        }
-    })
->>>>>>> 348fbdda58eb565766188e0aefe447f6965d65f7
 );
 
 export default router;
