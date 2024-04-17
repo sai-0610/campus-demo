@@ -18,6 +18,8 @@ import { Link } from "react-router-dom";
 const ProductScreen = () => {
   const [product, setProduct] = useState({});
   const { id: productId } = useParams();
+  // const productId = 1;
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,6 +37,7 @@ const ProductScreen = () => {
 
     fetchProduct();
   }, [productId]);
+
   //   const fetchProduct = async () => {
   //     try {
   //       const { data } = await axios.get(`/api/products/${productId}`);
@@ -112,7 +115,7 @@ const ProductScreen = () => {
                 text={`${product.numReviews} reviews`}
               />
             </ListGroup.Item>
-            <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+            <ListGroup.Item>Price: ₹{product.price}</ListGroup.Item>
             <ListGroup.Item>Description: {product.description}</ListGroup.Item>
           </ListGroup>
         </Col>
@@ -123,7 +126,7 @@ const ProductScreen = () => {
                 <Row>
                   <Col>Price:</Col>
                   <Col>
-                    <strong>${product.price}</strong>
+                    <strong>₹{product.price}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
